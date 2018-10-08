@@ -64,51 +64,13 @@ bot.on('message', function(user, userId, channelID, message, evt) {
                 bot.sendMessage({
                     to: channelID,
                     message: "Channel ID: " + channelID
-                })
+                });
                 break;
-            // case 'ootstimer':
-            //     logger.info("Channel ID: " + channelID);
-            //     // Run code over interval in settings.
-            //     setInterval(function () {
-            //         var date = new Date();
-            //         // var hour = date.getHours();
-            //         // var minute = date.getMinutes();
-            //         // var second = date.getSeconds();
-            //         // logger.info('ootstimer fire -- ' + (hour >= 10 ? hour : '0' + hour) + ':' + (minute >= 10 ? minute : '0' + minute) + ':' + (second >= 10 ? second : '0' + second));
-            //         // if the current minute is divisible by 20
-            //         if (date.getMinutes() % 20 === 0) {
-            //             // Make a request to ootscript
-            //             request(oots.url, { json: true}, (err, res, body) => {
-            //                 // Handle an error
-            //                 if (err) {
-            //                     bot.sendMessage({
-            //                         to: channelID,
-            //                         message: err
-            //                     });
-            //                 }
-            //                 // Find the URL in the body of the response via regex
-            //                 url_location = body.search(/\/comics\/oots.*\.html/g);
-            //                 // Set the URL
-            //                 oots_url = 'http://www.giantitp.com' + res.body.substring(url_location, url_location+21)
-            //                 // if the current comic url is different from the last one
-            //                 if (oots_url !== oots.previous) {
-            //                     // Sen the URL in chat
-            //                     bot.sendMessage({
-            //                         to: channelID,
-            //                         message: 'New OOTS!\n' + oots_url
-            //                     });
-            //                     // Set the current url as the previous variable for future comparison
-            //                     oots.previous = oots_url;
-            //                     // Log to the console for debugging
-            //                     logger.info('New OOTS!');
-            //                     logger.info(oots);
-            //                 }
-            //             });
-            //         }
-            //     }, oots.frequency);
-            //     break;
-            // break;
-            // Add additional cases here
+            default:
+                bot.sendMessage({
+                    to: channelID,
+                    message: ""
+                });
         }
     }
 });
@@ -116,6 +78,9 @@ bot.on('message', function(user, userId, channelID, message, evt) {
 var webcomics_channel_id = 408124087534223360;
 var test_channel_id = 489433194773348353;
 var active_channel_id = test_channel_id;
+logger.info('Calibrating time...')
+while (new Date().getSeconds() != 1) {}
+logger.info('Time calibrated.')
 setInterval(function () {
     var date = new Date();
     // var hour = date.getHours();
@@ -146,6 +111,7 @@ setInterval(function () {
                 });
                 // Set the current url as the previous variable for future comparison
                 oots.previous = oots_url;
+                oots.previousDate = new Date();
                 // Log to the console for debugging
                 logger.info('New OOTS!');
                 logger.info(oots);
